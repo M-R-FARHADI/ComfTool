@@ -1,3 +1,3 @@
 # ComfTool
-Some staff for thermal comfort calculations.
+Some functions for thermal comfort calculations.
 (e.g. PMV, PPD, SET, adaptive) 
