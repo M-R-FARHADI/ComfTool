@@ -4,12 +4,15 @@ close all
 %% Load datasets
 valid  = load('validdata1.txt');
 valid1 = load('validdata2.txt');
-%% Validation 1
+in = [0.016 0.12 0.2 0.3 0.4 0.6 0.8 1 1.2 1.4];
+in1 = [0.001 0.2 0.3 0.5 1.5];
+in3 = 12:0.05:30;
+in2 = 5:0.5:45;
 poolobj = parpool('local');
+%% Validation 1
 disp('CALCULATING ...')
 tic
-in = [0.016 0.12 0.2 0.3 0.4 0.6 0.8 1 1.2 1.4];
-parfor  i = 1: size(in,2)
+for  i = 1: size(in,2)
     input1 = [3 0 0 0.5 0.5 in(1,i)];
     [TAmet1] = FangerD(input1, 0);
     TA3(i, 1) = TAmet1;
@@ -28,11 +31,9 @@ parfor  i = 1: size(in,2)
 end
 toc
 %% Valitation 2
-in1 = [0.001 0.2 0.3 0.5 1.5];
-in2 = 5:0.5:45;
 disp('CALCULATING ...')
 tic
-parfor jj = 1 : size(in2, 2)
+for jj = 1 : size(in2, 2)
     input1 = [1 0 0 0.5 0.5 in1(1,1)];
     [TAmet1] = FangerD(input1, in2(1,jj));
     TA3z(jj, 1) = TAmet1;
@@ -51,17 +52,15 @@ parfor jj = 1 : size(in2, 2)
 end
 toc
 %% Validation 3
-in3 = 12:0.01:30;
 disp('CALCULATING ...')
 tic
-parfor i = 1:size(in3,2)
+for i = 1:size(in3,2)
     input1 = [1.1 0 i i 0.86 1 0.1];
     [PMV, PPD, TA] = FangerR (input1);
     PPDv(i,1) = PPD;
     TAa(i,1)   = TA;
 end
 toc
-delete(poolobj);
 %% Display
 figure('units','normalized','outerposition',[0 0 1 1])
 subplot(2,2,1)
@@ -94,6 +93,6 @@ subplot(2,2,3)
 plot(TAa,PPDv)
 xlabel('TEMP. (C)')
 ylabel('PPD')
-xlim([12 30])
-ylim([5 40])
+xlim([5 40])
+delete(poolobj);
 clear
